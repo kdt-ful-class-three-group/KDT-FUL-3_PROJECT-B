@@ -1,4 +1,4 @@
-import { HomeContainer } from "@bus-app/ui/components/pages/home/HomeContainer";
+import { HomeContainer } from "@bus-app/ui/components/home/HomeContainer";
 
 export default function Home() {
   return (
