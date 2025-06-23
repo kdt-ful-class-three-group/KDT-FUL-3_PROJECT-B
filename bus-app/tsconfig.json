@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "forceConsistentCasingInFileNames": true
+  },
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],

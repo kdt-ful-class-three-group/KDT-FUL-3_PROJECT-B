@@ -6,8 +6,9 @@
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -16,6 +17,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["development"]
+    "customConditions": ["development"],
+    "baseUrl": ".",
+    "paths": {
+      "@bus-app/ui": ["packages/ui/src/index.ts"],
+      "@bus-app/ui/*": ["packages/ui/src/*"]
+    }
   }
 }

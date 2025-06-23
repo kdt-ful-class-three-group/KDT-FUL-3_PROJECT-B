@@ -1,0 +1,7 @@
+{
+  "name": "@bus-app/ui",
+  "sourceRoot": "packages/ui/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}
