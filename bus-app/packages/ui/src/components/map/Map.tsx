@@ -13,8 +13,8 @@ export default function Map({ maptilerKey }: MapProps) {
     const map = new maplibregl.Map({
       container: mapRef.current!,
       style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerKey}`,
-      center: [127.3845, 36.3504],
-      zoom: 13,
+      center: [127.3849, 36.3510],
+      zoom: 16,
     });
 
     return () => map.remove();
