@@ -1,0 +1,29 @@
+{
+  "name": "@bus-app/server",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "targets": {
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@bus-app/server:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@bus-app/server:build:development"
+          },
+          "production": {
+            "buildTarget": "@bus-app/server:build:production"
+          }
+        }
+      }
+    }
+  }
+}
