@@ -1,14 +1,10 @@
-import { Button } from '@bus-app/ui'
+import { Routes, Route } from 'react-router-dom';
+import Home from '../pages/Home';
 
-export function App() {
+export default function App() {
   return (
-    <div>
-      <h1>KDT 모노레포 버스 웹/애플리케이션 프로젝트</h1>
-      <Button
-        children="버튼"
-      />
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
   );
 }
-
-export default App;
