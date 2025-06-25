@@ -36,6 +36,8 @@ router.get('/', async (req, res) => {
       name: item.nodenm,
       lat: parseFloat(item.gpslati),
       lng: parseFloat(item.gpslong),
+      citycode: item.citycode,
+      routeId: item.routeid ?? null,
     }));
 
     console.log('정류장 데이터 불러오기 성공', formatted.length, '개');

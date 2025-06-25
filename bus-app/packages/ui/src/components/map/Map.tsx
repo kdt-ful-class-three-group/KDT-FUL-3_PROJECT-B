@@ -3,6 +3,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect, useRef } from 'react';
 import axios from 'axios';
 
+import { fetchBusStop } from './fetchBusStop';
+
 type MapProps = {
   maptilerKey: string;
 };
@@ -29,12 +31,27 @@ export default function Map({ maptilerKey }: MapProps) {
         })
         .then((response) => {
           const stops = response.data;
-          stops.forEach((stop: { id: string; name: string; lat: number; lng: number }) => {
-            new maplibregl.Marker()
-              .setLngLat([stop.lng, stop.lat])
-              .setPopup(new maplibregl.Popup().setText(stop.name))
-              .addTo(map);
-          });
+          stops.forEach(
+            (stop: {
+              id: string;
+              name: string;
+              lat: number;
+              lng: number;
+              citycode: number;
+              routeId: string;
+            }) => {
+              const marker = new maplibregl.Marker()
+                .setLngLat([stop.lng, stop.lat])
+                .setPopup(new maplibregl.Popup().setText(stop.name))
+                .addTo(map);
+
+              // 마커 클릭 이벤트
+              marker.getElement().addEventListener('click', () => {
+                console.log('클릭된 정류장:', stop.id, stop.citycode, stop.name);
+                fetchBusStop(stop.id, stop.citycode, stop.name);
+              });
+            }
+          );
         })
         .catch((error) => {
           console.error('정류장 데이터 불러오기 실패:', error);
