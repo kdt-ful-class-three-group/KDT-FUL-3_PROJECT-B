@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import { FetchStopInfo } from './FetchStopInfo';
-import { MapMarkerProps } from './types';
+import { MapMarkerProps } from './Map.types';
 
 export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
   const markerRef = useRef<maplibregl.Marker | null>(null);
