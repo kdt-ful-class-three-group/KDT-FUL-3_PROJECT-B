@@ -1,10 +1,15 @@
 import express from 'express';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   const { nodeId, cityCode } = req.query;
+  const serviceKey = process.env.BUSSTOP_SERVICE_KEY;
+
+
 
   if (!nodeId || !cityCode) {
     return res.status(400).json({ error: 'Missing nodeId or cityCode' });
@@ -12,7 +17,7 @@ router.get('/', async (req, res) => {
 
   try {
     const { data } = await axios.get(
-      `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`,
+      `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${serviceKey}`,
       {
         params: {
           _type: 'json',

@@ -9,16 +9,37 @@ export const SearchContainer = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
 
   useEffect(() => {
-    if (!query.trim()) return setResults([]);
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    const controller = new AbortController();
     const fetch = async () => {
       try {
         const data = await searchBusStop(query);
-        setResults(data);
-      } catch (e) {
-        console.error("검색 오류:", e);
+
+        const sorted = [...data].sort((a, b) => {
+          const exactA = a.name === query;
+          const exactB = b.name === query;
+          if (exactA && !exactB) return -1;
+          if (!exactA && exactB) return 1;
+          return 0;
+        });
+
+        setResults(sorted);
+      } catch (e: any) {
+        if (e.name !== "AbortError") {
+          console.error("검색 오류:", e);
+        }
       }
     };
+
     fetch();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   return (
