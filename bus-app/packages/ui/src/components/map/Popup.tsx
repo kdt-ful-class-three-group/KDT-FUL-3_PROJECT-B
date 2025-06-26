@@ -10,9 +10,18 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (isVisible) return;
+  
+    const timer = setTimeout(() => {
+      onClose();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [isVisible, onClose]);
+
   return (
     <div
-      className={`fixed bottom-0 left-0 w-full max-w-md mx-auto h-[70%] bg-gray-100 shadow-lg rounded-t-xl p-4 transition-transform duration-300 z-50
+      className={`custom-popup fixed bottom-0 left-0 w-full max-w-md mx-auto h-[70%] bg-gray-100 shadow-lg rounded-t-xl p-4 transition-transform duration-300 z-50
     ${isVisible ? 'translate-y-0' : 'translate-y-full'}
   `}
     >
@@ -23,7 +32,7 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
             <span className="text-sm text-gray-500 ml-2">({buses[0].end} 방면)</span>
           )}
         </h2>
-        <Button onClick={onClose} className="text-gray-500 hover:text-black" aria-label="닫기">
+        <Button onClick={() => setIsVisible(false)} className="text-gray-500 hover:text-black" aria-label="닫기">
           &times;
         </Button>
       </div>

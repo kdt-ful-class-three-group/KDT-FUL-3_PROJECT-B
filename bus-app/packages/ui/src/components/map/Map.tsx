@@ -25,7 +25,6 @@ export default function Map({ maptilerKey }: MapProps) {
   const prevLng = useRef<number>(0);
 
   useEffect(() => {
-
     if (!mapRef.current) return;
 
     const map = new maplibregl.Map({
@@ -76,6 +75,32 @@ export default function Map({ maptilerKey }: MapProps) {
 
     return () => map.remove();
   }, [maptilerKey]);
+
+
+  // 팝업 외부 클릭 시 팝업 닫기
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (!mapRef.current) return;
+
+      // 클릭한 요소가 팝업 내부라면 닫지 않음
+      const target = event.target as Node;
+      if (target instanceof HTMLElement && target.closest('.custom-popup')) {
+        return;
+      }
+
+      if (
+        selectedStop &&
+        mapRef.current.contains(target)
+      ) {
+        setSelectedStop(null);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [selectedStop]);
 
   return (
     <>
