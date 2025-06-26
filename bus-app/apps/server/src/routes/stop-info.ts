@@ -12,10 +12,9 @@ router.get('/', async (req, res) => {
 
   try {
     const { data } = await axios.get(
-      'https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList',
+      `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`,
       {
         params: {
-          serviceKey: process.env.BUSSTOP_SERVICE_KEY!,
           _type: 'json',
           nodeid: nodeId,
           cityCode,
@@ -25,9 +24,9 @@ router.get('/', async (req, res) => {
       }
     );
 
-    console.log('요청한 nodeId:', nodeId);
-    console.log('요청한 cityCode:', cityCode);
-    console.log('🧾 응답 전체 데이터:', JSON.stringify(data, null, 2));
+    // console.log('요청한 nodeId:', nodeId);
+    // console.log('요청한 cityCode:', cityCode);
+    // console.log('🧾 응답 전체 데이터:', JSON.stringify(data, null, 2));
 
     const items = data?.response?.body?.items?.item;
 
