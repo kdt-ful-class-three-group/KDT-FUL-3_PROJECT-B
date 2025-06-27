@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 
 import stopRouter from './routes/stop';
 import stopInfoRouter from './routes/stop-info';
+import arrivalRouter from './routes/arrival';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/stop', stopRouter);
 app.use('/api/stop-info', stopInfoRouter);
+app.use('/api/arrival', arrivalRouter)
 
 const port = process.env.PORT
 const server = app.listen(port, () => {

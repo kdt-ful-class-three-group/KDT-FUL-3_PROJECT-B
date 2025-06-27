@@ -31,6 +31,7 @@ export interface PopupProps {
   stop: {
     id: string;
     name: string;
+    citycode: number;
   };
   buses: BusRoute[];
   onClose: () => void;

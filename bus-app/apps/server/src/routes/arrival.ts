@@ -17,9 +17,11 @@ router.get('/', async (req, res) => {
       `http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`,
       {
         params: {
-          _type: 'json',
-          nodeid: stopId,    // 정류장 ID
-          routeid: routeId,  // 버스노선 ID
+           _type: 'json',
+          cityCode, 
+          nodeId: stopId,   
+          numOfRows: 10,
+          pageNo: 1,
         },
       }
     );

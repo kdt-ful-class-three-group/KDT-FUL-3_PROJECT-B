@@ -14,12 +14,12 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
     // 노선별 도착정보를 모두 fetch
     async function fetchArrivals() {
       const infoMap: { [routeId: string]: ArrivalInfo | undefined } = {};
+      
       // 각 노선에 대해 도착정보 fetch (순차 or 병렬 가능)
       await Promise.all(
         buses.map(async (bus) => {
           try {
-            const infoList = await FetchArrivalInfo(stop.id, bus.routeId);
-            // 여러 정보가 올 수도 있지만, 보통 첫 번째(가장 빠른 버스)만 표시
+            const infoList = await FetchArrivalInfo(stop.id, bus.routeId, stop.citycode);
             infoMap[bus.routeId] = infoList[0];
           } catch (e) {
             infoMap[bus.routeId] = undefined;
@@ -32,7 +32,7 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
     fetchArrivals();
 
     return () => clearTimeout(timer);
-  }, [buses, stop.id]);
+  }, [buses, stop.id, stop.citycode]);
 
   return (
     <div
@@ -58,6 +58,13 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
             {buses.map((bus) => {
               // 도착정보 가져오기
               const info = arrivalInfos[bus.routeId];
+              console.log('도착정보 디버깅:', {
+                routeId: bus.routeId,
+                info,
+                arrivalInfos,
+                stopId: stop.id,
+                cityCode: stop.citycode,
+              });
               return (
                 <li
                   key={bus.routeId}
