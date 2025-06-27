@@ -4,6 +4,7 @@ import { usePopupClose } from './usePopupClose';
 import { MapView } from './MapView';
 import type { MapProps, Stop, BusRoute } from './Map.types';
 
+
 export default function Map({ maptilerKey }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);

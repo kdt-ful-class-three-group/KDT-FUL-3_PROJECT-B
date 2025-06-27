@@ -21,7 +21,7 @@ export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
     markerRef.current = marker;
 
     const handleClick = async () => {
-      console.log('정류장 클릭:', stop.id);
+      console.log('정류장 마커 클릭:', stop.name);
 
       if (!onSelectStop) return;
       onSelectStop([], stop); // 초기화

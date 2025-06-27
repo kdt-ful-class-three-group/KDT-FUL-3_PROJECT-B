@@ -31,7 +31,7 @@ export const PopupView: React.FC<PopupViewProps> = ({
             <li
               key={bus.routeId}
               className="p-3 bg-gray-100 rounded-lg shadow-sm text-base text-gray-800 cursor-pointer hover:bg-gray-200 transition-colors"
-              onClick={() => console.log(`버스 클릭이벤트 추가하면됨 ${bus.routeNo}`)}
+              onClick={() => console.log(`버스 클릭이벤트 추가하면됨 ${bus.routeId}`)}
             >
               <div className="flex justify-between items-center">
                 <span className="font-bold text-blue-600">[{bus.routeTp}] {bus.routeNo}번</span>

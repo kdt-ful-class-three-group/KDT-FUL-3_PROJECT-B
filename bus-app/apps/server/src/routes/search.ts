@@ -1,58 +1,51 @@
-// import express from 'express';
-// import { MongoClient } from 'mongodb';
-// import dotenv from 'dotenv';
-// dotenv.config();
+import express from "express";
+import { connectToDB } from "../database/mongo";
+import dotenv from "dotenv";
+dotenv.config();
 
-// const router = express.Router();
+const router = express.Router();
 
-// const client = new MongoClient(process.env.MONGODB_URI || '');
-// const dbName = 'bus-app';
+router.get("/", async (req, res) => {
+  const query = req.query.q?.toString();
 
-// router.get('/', async (req, res) => {
-//   const query = req.query.q as string;
+  console.log("🔎 사용자가 입력한 query:", query);
 
-//   if (!query) {
-//     return res.status(400).json({ error: '검색어가 필요합니다.' });
-//   }
+  if (!query) return res.status(400).json({ error: "query required" });
 
-//   try {
-//     const isNumber = /^\d+$/.test(query);
-//     await client.connect();
-//     const db = client.db(dbName);
+  const db = await connectToDB();
 
-//     let results: { id: string; name: string; type: 'bus' | 'stop' }[] = [];
+  const [stops, buses] = await Promise.all([
+    db.collection("bus_stops").find({
+      nodenm: { $regex: query, $options: "i" }
+    }).toArray(),
 
-//     if (isNumber) {
-//       const buses = await db
-//         .collection('bus_routes')
-//         .find({ name: { $regex: query, $options: 'i' } })
-//         .toArray();
+    db.collection("bus_numbers").find({
+      routeno: { $regex: query, $options: "i" }
+    }).toArray()
+  ]);
 
-//       results = buses.map((bus: any) => ({
-//         id: bus.id,
-//         name: bus.name,
-//         type: 'bus',
-//       }));
-//     } else {
-//       const stops = await db
-//         .collection('bus_stops')
-//         .find({ name: { $regex: query, $options: 'i' } })
-//         .toArray();
+  console.log("🚌 검색된 버스:", buses);
+  const uniqueStopsMap = new Map();
+  stops.forEach((stop) => {
+    if (!uniqueStopsMap.has(stop.nodenm)) {
+      uniqueStopsMap.set(stop.nodenm, {
+        name: stop.nodenm,
+        nodeid: stop.nodeid,
+        type: "stop",
+      });
+    }
+  });
+  const stopResults = Array.from(uniqueStopsMap.values());
 
-//       results = stops.map((stop: any) => ({
-//         id: stop.id,
-//         name: stop.name,
-//         type: 'stop',
-//       }));
-//     }
+  const busResults = buses.map((bus) => ({
+    name: bus.routeno,
+    nodeid: bus.routeid,
+    type: "bus",
+  }));
 
-//     return res.json(results);
-//   } catch (error) {
-//     console.error('검색 요청 실패:', error);
-//     return res.status(500).json({ error: '검색 요청 중 오류가 발생했습니다.' });
-//   } finally {
-//     await client.close();
-//   }
-// });
+  const combinedResults = [...busResults, ...stopResults];
+  res.json(combinedResults);
+  return;
+});
 
-// export default router;
+export default router;

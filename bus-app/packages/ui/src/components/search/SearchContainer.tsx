@@ -3,6 +3,7 @@ import { SearchInput } from "./SearchInput";
 import { SearchResultList } from "./SearchResultList";
 import { searchBusStop } from "./SearchService";
 import type { SearchResult } from "./Search.types";
+import { SearchWrapper } from "./SearchWrapper";
 
 export const SearchContainer = () => {
   const [query, setQuery] = useState("");
@@ -14,38 +15,40 @@ export const SearchContainer = () => {
       return;
     }
 
-    const controller = new AbortController();
-    const fetch = async () => {
+    const delay = setTimeout(async () => {
       try {
         const data = await searchBusStop(query);
-
-        const sorted = [...data].sort((a, b) => {
-          const exactA = a.name === query;
-          const exactB = b.name === query;
-          if (exactA && !exactB) return -1;
-          if (!exactA && exactB) return 1;
-          return 0;
-        });
-
-        setResults(sorted);
-      } catch (e: any) {
-        if (e.name !== "AbortError") {
-          console.error("검색 오류:", e);
+        if (!Array.isArray(data)) {
+          console.error("API 응답이 배열이 아님:", data);
+          setResults([]);
+          return;
         }
+        setResults(data);
+      } catch (e) {
+        console.error("검색 오류:", e);
+        setResults([]);
       }
-    };
+    }, 300);
 
-    fetch();
-
-    return () => {
-      controller.abort();
-    };
+    return () => clearTimeout(delay);
   }, [query]);
 
   return (
-    <div className="p-6">
-      <SearchInput value={query} onChange={setQuery} />
-      <SearchResultList results={results} onSelect={(item) => console.log("선택됨:", item)} />
-    </div>
+    <SearchWrapper>
+      {(showResults, setShowResults, containerRef) => (
+        <div ref={containerRef} className="p-6">
+          <SearchInput
+            value={query}
+            onChange={(val) => {
+              setQuery(val);
+              setShowResults(true);
+            }}
+          />
+          {showResults && (
+            <SearchResultList results={results} onSelect={(item) => console.log("선택됨:", item)} />
+          )}
+        </div>
+      )}
+    </SearchWrapper>
   );
 };
