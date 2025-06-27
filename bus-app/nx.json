@@ -91,5 +91,9 @@
         "linter": "eslint"
       }
     }
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "packages"
   }
 }
