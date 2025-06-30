@@ -1,11 +1,10 @@
 import maplibregl from 'maplibre-gl';
-
 export interface Stop {
   id: string;
   name: string;
   lat: number;
   lng: number;
-  citycode: number;
+  citycode?: number;
 }
 
 export interface BusRoute {
@@ -45,3 +44,4 @@ export interface MapViewProps {
   onSelectStop: (routes: BusRoute[], stop: Stop) => void;
   onClosePopup: () => void;
 }
+

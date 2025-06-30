@@ -7,6 +7,5 @@ export interface SearchResult {
   start: string;
   end: string;
   routetp: string;
-  lat: number;
-  lng: number;
 }
+
