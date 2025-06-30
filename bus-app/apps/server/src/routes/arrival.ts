@@ -33,16 +33,23 @@ router.get('/', async (req, res) => {
 
     const arrivals = itemsArray
       .filter((item: any) => String(item.routeid) === String(routeId))
-      .map((item: any) => ({
-        routeId: item.routeid,
-        routeNo: item.routeno,
-        routeTp: item.routetp,
-        predictTime1: item.arrtime,
-        message1: item.arrmsg1 ?? '',
-        message2: item.arrmsg2 ?? '',
-        stationOrder1: item.arrprevstationcnt,
-        vehicletp: item.vehicletp,
-      }));
+      .map((item: any) => {
+        let message1 = item.arrmsg1 ?? '';
+        // 1분(60초) 이하일 때 '곧도착'으로 표시
+        if (item.arrtime !== undefined && !isNaN(Number(item.arrtime)) && Number(item.arrtime) <= 60) {
+          message1 = '곧도착';
+        }
+        return {
+          routeId: item.routeid,
+          routeNo: item.routeno,
+          routeTp: item.routetp,
+          predictTime1: item.arrtime,
+          message1,
+          message2: item.arrmsg2 ?? '',
+          stationOrder1: item.arrprevstationcnt,
+          vehicletp: item.vehicletp,
+        };
+      });
 
     return res.json(arrivals);
   } catch (error) {
