@@ -61,53 +61,77 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
       <div className="flex-1 overflow-hidden h-full">
         <div className="overflow-y-auto pr-1 h-full max-h-full scrollbar-hide">
           <ul className="space-y-2">
-            {buses.map((bus) => {
-              // 도착정보 가져오기
-              const info = arrivalInfos[bus.routeId];
-              console.log('도착정보 디버깅:', {
-                routeId: bus.routeId,
-                info,
-                arrivalInfos,
-                stopId: stop.id,
-                cityCode: stop.citycode,
-              });
-              return (
-                <li
-                  key={bus.routeId}
-                  className="p-3 bg-gray-100 rounded-lg shadow-sm text-base text-gray-800 cursor-pointer hover:bg-gray-200 transition-colors"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-blue-600">[{bus.routeTp}] {bus.routeNo}번</span>
-                    <span className="text-sm text-gray-500">{bus.end} 방면</span>
-                  </div>
-                  <div className="text-sm text-gray-600">{bus.start} → {bus.end}</div>
-                  {/* 버스 도착 정보 표시 */}
-                  <div className="mt-1 text-sm text-green-700">
-                    {info
-                      ? (
-                        <>
-                          <span>
-                            버스 도착 시간:&nbsp;
-                            {info.message1 
-                              ? info.message1 
-                              : info.predictTime1
-                                ? `${Math.round(Number(info.predictTime1) / 60)}분 후`
-                                : '정보 없음'
-                            }
-                          </span>
-                          {info.message2 && (
-                            <span className="ml-2 text-gray-500">
-                              / {info.message2}
+            {buses
+              .slice() // 원본 배열 불변성 유지
+              .sort((a, b) => {
+                const aInfo = arrivalInfos[a.routeId];
+                const bInfo = arrivalInfos[b.routeId];
+                const aTime = Number(aInfo?.predictTime1);
+                const bTime = Number(bInfo?.predictTime1);
+                const aValid = !isNaN(aTime) && aTime > 0;
+                const bValid = !isNaN(bTime) && bTime > 0;
+                if (aValid && bValid) return aTime - bTime;
+                if (aValid) return -1;
+                if (bValid) return 1;
+                return 0;
+              })
+              .map((bus) => {
+                // 도착정보 가져오기
+                const info = arrivalInfos[bus.routeId];
+                console.log('도착정보 디버깅:', {
+                  routeId: bus.routeId,
+                  info,
+                  arrivalInfos,
+                  stopId: stop.id,
+                  cityCode: stop.citycode,
+                });
+                return (
+                  <li
+                    key={bus.routeId}
+                    className="p-3 bg-gray-100 rounded-lg shadow-sm text-base text-gray-800 cursor-pointer hover:bg-gray-200 transition-colors"
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-blue-600">[{bus.routeTp}] {bus.routeNo}번</span>
+                      <span className="text-sm text-gray-500">{bus.end} 방면</span>
+                    </div>
+                    <div className="text-sm text-gray-600">{bus.start} → {bus.end}</div>
+                    {/* 버스 도착 정보 표시 */}
+                    <div className="mt-1 text-sm text-green-700">
+                      {info
+                        ? (
+                          <>
+                            <span>
+                              버스 도착 시간:&nbsp;
+                              {(() => {
+                                // 프론트에서도 1분 이하 또는 '1분 후' 메시지면 '곧도착'으로 표시
+                                if (info.predictTime1 !== undefined && !isNaN(Number(info.predictTime1)) && Number(info.predictTime1) <= 60) {
+                                  return '곧도착';
+                                }
+                                if (typeof info.message1 === 'string' && info.message1.includes('1분 후')) {
+                                  return '곧도착';
+                                }
+                                if (info.message1) {
+                                  return info.message1;
+                                }
+                                if (info.predictTime1) {
+                                  return `${Math.round(Number(info.predictTime1) / 60)}분 후`;
+                                }
+                                return '정보 없음';
+                              })()}
                             </span>
-                          )}
-                        </>
-                      )
-                      : <span className="text-gray-400">버스 도착 정보 없음</span>
-                    }
-                  </div>
-                </li>
-              );
-            })}
+                            {info.message2 && (
+                              <span className="ml-2 text-gray-500">
+                                / {info.message2}
+                              </span>
+                            )}
+                          </>
+                        )
+                        : <span className="text-gray-400">버스 도착 정보 없음</span>
+                      }
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>

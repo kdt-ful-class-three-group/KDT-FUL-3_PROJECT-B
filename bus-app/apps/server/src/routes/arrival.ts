@@ -51,6 +51,16 @@ router.get('/', async (req, res) => {
           stationOrder1: item.arrprevstationcnt,
           vehicletp: item.vehicletp,
         };
+      })
+      .sort((a, b) => {
+        const aTime = Number(a.predictTime1);
+        const bTime = Number(b.predictTime1);
+        const aValid = !isNaN(aTime) && aTime > 0;
+        const bValid = !isNaN(bTime) && bTime > 0;
+        if (aValid && bValid) return aTime - bTime;
+        if (aValid) return -1;
+        if (bValid) return 1;
+        return 0;
       });
 
     return res.json(arrivals);
