@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import { FetchStopInfo } from './FetchStopInfo';
-import { MapMarkerProps } from './types';
+import { MapMarkerProps } from './Map.types';
 
 export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
   const markerRef = useRef<maplibregl.Marker | null>(null);
@@ -21,7 +21,7 @@ export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
     markerRef.current = marker;
 
     const handleClick = async () => {
-      console.log('정류장 클릭:', stop.id);
+      console.log('정류장 마커 클릭:', stop.name);
 
       if (!onSelectStop) return;
       onSelectStop([], stop); // 초기화

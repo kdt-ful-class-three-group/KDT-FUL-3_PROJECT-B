@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PopupProps, ArrivalInfo } from "./types";
+import { PopupProps, ArrivalInfo } from "./Map.types";
 import { Button } from "../common/Button";
 import { FetchArrivalInfo } from "./FetchArrivalInfo"; 
 

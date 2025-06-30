@@ -7,8 +7,11 @@ const router = Router();
 
 
 router.get('/', async (req, res) => {
+
+  const serviceKey = process.env.BUSSTOP_SERVICE_KEY;
+
   try {
-    const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`
+    const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${serviceKey}`;
     const lat = req.query.lat as string;
     const lng = req.query.lng as string;
 
@@ -27,16 +30,13 @@ router.get('/', async (req, res) => {
     });
 
     const items = response.data?.response?.body?.items?.item || [];
-    console.log(response.data);
-    console.log('📦 원본 items:', JSON.stringify(items, null, 2));
-
 
     const formatted = await Promise.all(
       items.map(async (item: any) => {
         let routeName = null;
         try {
           const routeListRes = await axios.get(
-            `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`,
+            `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${serviceKey}`,
             {
               params: {
                 cityCode: item.citycode,
@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
             routeName = routes?.routenm ?? null;
           }
         } catch (e) {
-          console.warn(`❗nodeId ${item.nodeid} 경유 노선 정보 불러오기 실패`);
+          console.warn(`nodeId ${item.nodeid} 경유 노선 정보 불러오기 실패`);
         }
 
         return {
@@ -65,14 +65,10 @@ router.get('/', async (req, res) => {
         };
       })
     );
-  // console.log('📦 원본 items:', JSON.stringify(items, null, 2));
-  // console.log('🧾 반환 데이터:', JSON.stringify(formatted, null, 2));
-  //   console.log('📦 최종 반환 데이터 예시:', JSON.stringify(formatted, null, 2));
-  //   console.log('정류장 데이터 불러오기 성공', formatted.length, '개');
-    return res.json(formatted); // 여기 명시적으로 return
+    return res.json(formatted);
   } catch (error) {
     console.error('정류장 데이터 에러:', error);
-    return res.status(500).json({ error: '정류장 데이터 못불러옴' }); // 여기도 return
+    return res.status(500).json({ error: '정류장 데이터 못불러옴' });
   }
 });
 
