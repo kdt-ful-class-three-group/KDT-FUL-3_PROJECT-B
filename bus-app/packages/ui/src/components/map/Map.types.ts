@@ -1,5 +1,4 @@
 import maplibregl from 'maplibre-gl';
-
 export interface Stop {
   id: string;
   name: string;
@@ -25,6 +24,7 @@ export interface MapMarkerProps {
   stop: Stop;
   mapInstance: maplibregl.Map | null;
   onSelectStop?: (routes: BusRoute[], stop: Stop) => void;
+  highlighted?: boolean;
 }
 
 export interface PopupProps {
@@ -59,3 +59,4 @@ export interface MapViewProps {
   onSelectStop: (routes: BusRoute[], stop: Stop) => void;
   onClosePopup: () => void;
 }
+

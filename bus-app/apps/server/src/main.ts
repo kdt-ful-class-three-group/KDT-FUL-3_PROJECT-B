@@ -13,6 +13,7 @@ import arrivalRouter from './routes/arrival';
 import searchRouter from './routes/search';
 import busStopRouter from './routes/init/bus-stops';
 import busNumberRouter from './routes/init/bus-number';
+import stopByNameRouter from './routes/stop-by-name';
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use('/api/stop-info', stopInfoRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/init/bus-stops', busStopRouter);
 app.use('/api/init/bus-numbers', busNumberRouter);
+app.use('/api/stop-by-name', stopByNameRouter);
 
 const port = process.env.PORT
 const server = app.listen(port, () => {

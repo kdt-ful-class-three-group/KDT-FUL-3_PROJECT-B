@@ -17,7 +17,14 @@ export const SearchResultList = ({ results, onSelect }: Props) => {
             className="p-2 rounded hover:bg-gray-100 cursor-pointer"
             onClick={() => onSelect(item)}
           >
-            {item.name}{item.type === "bus" && `번 버스`}
+            {item.type === "bus" ? (
+              <div>
+                <div className="font-medium">{`${item.routetp} ${item.name}번`}</div>
+                <div className="text-sm text-gray-500">{`${item.start} → ${item.end}`}</div>
+              </div>
+            ) : (
+              item.name
+            )}
           </li>
         ))}
       </ul>

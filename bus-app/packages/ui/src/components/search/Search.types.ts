@@ -4,4 +4,8 @@ export interface SearchResult {
   name: string;
   nodeid: string;
   type: SearchResultType;
+  start: string;
+  end: string;
+  routetp: string;
 }
+

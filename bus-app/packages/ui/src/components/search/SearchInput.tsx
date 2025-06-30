@@ -1,3 +1,4 @@
+// 검색 input 컴포넌트
 import { Input } from "../common/Input";
 
 interface Props {
