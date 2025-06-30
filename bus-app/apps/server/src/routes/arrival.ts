@@ -35,8 +35,10 @@ router.get('/', async (req, res) => {
       .filter((item: any) => String(item.routeid) === String(routeId))
       .map((item: any) => {
         let message1 = item.arrmsg1 ?? '';
-        // 1분(60초) 이하일 때 '곧도착'으로 표시
-        if (item.arrtime !== undefined && !isNaN(Number(item.arrtime)) && Number(item.arrtime) <= 60) {
+        // 1분(60초) 이하이거나, 메시지에 '1분 후'가 포함되어 있으면 '곧도착'으로 표시
+        if ((item.arrtime !== undefined && !isNaN(Number(item.arrtime)) && Number(item.arrtime) <= 60) ||
+            (typeof message1 === 'string' && message1.includes('1분 후'))
+        ) {
           message1 = '곧도착';
         }
         return {
