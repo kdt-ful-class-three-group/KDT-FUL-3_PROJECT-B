@@ -10,7 +10,7 @@ export interface Stop {
 
 export interface BusRoute {
   routeId: string;
-  routeNo: number;
+  routeNo: string;
   routeName: string;
   routeTp: string;
   start: string;
@@ -48,4 +48,14 @@ export interface ArrivalInfo {
   message1?: string;     // 예: '곧 도착' 등
   message2?: string;     // 두 번째 버스 메시지
   [key: string]: any;    // 혹시 추가 필드 대응
+}
+
+export interface MapViewProps {
+  mapRef: React.RefObject<HTMLDivElement | null>;
+  mapInstance: maplibregl.Map | null;
+  stops: Stop[];
+  selectedStop: Stop | null;
+  popupBuses: BusRoute[];
+  onSelectStop: (routes: BusRoute[], stop: Stop) => void;
+  onClosePopup: () => void;
 }

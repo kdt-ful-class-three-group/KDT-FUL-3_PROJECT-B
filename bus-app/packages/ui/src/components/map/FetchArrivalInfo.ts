@@ -1,7 +1,7 @@
 // bus-app/package/ui/componets/map/FetchArrivalInfo.ts
 
 import axios from "axios";
-import { ArrivalInfo } from './types'
+import { ArrivalInfo } from './Map.types'
 
 
 export const FetchArrivalInfo = async (stopId: string, routeId: string, cityCode: number | string): Promise<ArrivalInfo[]> => {
