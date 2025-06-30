@@ -1,7 +1,6 @@
 // bus-app/apps/server/src/routes/arrival.ts
 
 import express from 'express';
-import axios from 'axios';
 
 const router = express.Router();
 
@@ -12,36 +11,38 @@ router.get('/', async (req, res) => {
   }
 
   try {
-    // 국토교통부 TAGO 버스 도착정보 오픈API
-    const { data } = await axios.get(
-      `http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=${process.env.BUSSTOP_SERVICE_KEY}`,
-      {
-        params: {
-           _type: 'json',
-          cityCode, 
-          nodeId: stopId,   
-          numOfRows: 10,
-          pageNo: 1,
-        },
-      }
-    );
+    const serviceKey = process.env.BUSSTOP_SERVICE_KEY;
+    const numOfRows = 10;
+    const pageNo = 1;
+    const url = `http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList?serviceKey=${serviceKey}&cityCode=${cityCode}&nodeId=${stopId}&numOfRows=${numOfRows}&pageNo=${pageNo}&_type=json`;
+
+    const response = await fetch(url);
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("JSON 파싱 에러:", e, text);
+      return res.status(500).json({ error: "API에서 JSON이 아닌 응답이 왔어요." });
+    }
 
     const items = data?.response?.body?.items?.item;
     if (!items) return res.json([]);
 
-    // 단일 객체인 경우 배열로 변환
     const itemsArray = Array.isArray(items) ? items : [items];
 
-    // 필요한 도착 정보만 가공해서 전달
-    const arrivals = itemsArray.map((item: any) => ({
-      routeId: item.routeid, // 노선ID
-      routeNo: item.routeno, // 노선번호
-      routeTp: item.routetp, // 노선유형
-      arrPrevStationCnt: item.arrprevstationcnt, // 남은 정류장 수
-      vehicletp: item.vehicletp, // 차량유형
-      arrTime: item.arrtime, // 도착예정(초)
-      message: item.arrmsg1 ?? '', // 안내 메시지(있으면)
-    }));
+    const arrivals = itemsArray
+      .filter((item: any) => String(item.routeid) === String(routeId))
+      .map((item: any) => ({
+        routeId: item.routeid,
+        routeNo: item.routeno,
+        routeTp: item.routetp,
+        predictTime1: item.arrtime,
+        message1: item.arrmsg1 ?? '',
+        message2: item.arrmsg2 ?? '',
+        stationOrder1: item.arrprevstationcnt,
+        vehicletp: item.vehicletp,
+      }));
 
     return res.json(arrivals);
   } catch (error) {

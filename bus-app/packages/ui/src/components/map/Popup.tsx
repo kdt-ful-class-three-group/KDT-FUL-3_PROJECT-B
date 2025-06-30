@@ -17,15 +17,21 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
       
       // 각 노선에 대해 도착정보 fetch (순차 or 병렬 가능)
       await Promise.all(
-        buses.map(async (bus) => {
-          try {
-            const infoList = await FetchArrivalInfo(stop.id, bus.routeId, stop.citycode);
-            infoMap[bus.routeId] = infoList[0];
-          } catch (e) {
-            infoMap[bus.routeId] = undefined;
-          }
-        })
-      );
+      buses.map(async (bus) => {
+        try {
+          const infoList = await FetchArrivalInfo(stop.id, bus.routeId, stop.citycode);
+          // infoList가 배열이 아닐 수도 있으니, 배열로 변환
+          const arr = Array.isArray(infoList) ? infoList : [];
+          // routeId를 문자열로 변환해서 비교
+          const info = arr.find(
+            (item) => String(item.routeId).trim() === String(bus.routeId).trim()
+          );
+          infoMap[bus.routeId] = info;
+        } catch (e) {
+          infoMap[bus.routeId] = undefined;
+        }
+      })
+    );
       setArrivalInfos(infoMap);
     }
 
@@ -81,7 +87,7 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
                       ? (
                         <>
                           <span>
-                            🚌 버스 도착 시간:&nbsp;
+                            버스 도착 시간:&nbsp;
                             {info.message1 
                               ? info.message1 
                               : info.predictTime1
