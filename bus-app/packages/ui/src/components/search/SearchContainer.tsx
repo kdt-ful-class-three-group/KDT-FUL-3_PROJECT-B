@@ -5,7 +5,7 @@ import { searchBusStop } from "./SearchService";
 import type { SearchResult } from "./Search.types";
 import { SearchWrapper } from "./SearchWrapper";
 
-export const SearchContainer = () => {
+export const SearchContainer = ({ onSelect }: {onSelect: (item: SearchResult) => void}) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
 
@@ -36,7 +36,7 @@ export const SearchContainer = () => {
   return (
     <SearchWrapper>
       {(showResults, setShowResults, containerRef) => (
-        <div ref={containerRef} className="p-6">
+        <div ref={containerRef} className="p-8">
           <SearchInput
             value={query}
             onChange={(val) => {
@@ -45,7 +45,12 @@ export const SearchContainer = () => {
             }}
           />
           {showResults && (
-            <SearchResultList results={results} onSelect={(item) => console.log("선택됨:", item)} />
+            <SearchResultList
+              results={results}
+              onSelect={(item) => {
+                console.log("선택됨:", item);
+                onSelect(item);
+              }} />
           )}
         </div>
       )}

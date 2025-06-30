@@ -1,3 +1,4 @@
+// 검색어 입력 시 서버에 요청을 보내고 반환
 import axios from "axios";
 import type { SearchResult } from "./Search.types";
 

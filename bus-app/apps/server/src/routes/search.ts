@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const query = req.query.q?.toString();
 
-  console.log("🔎 사용자가 입력한 query:", query);
+  console.log("입력 쿼리:", query);
 
   if (!query) return res.status(400).json({ error: "query required" });
 
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
     }).toArray()
   ]);
 
-  console.log("🚌 검색된 버스:", buses);
+
   const uniqueStopsMap = new Map();
   stops.forEach((stop) => {
     if (!uniqueStopsMap.has(stop.nodenm)) {
@@ -40,6 +40,9 @@ router.get("/", async (req, res) => {
   const busResults = buses.map((bus) => ({
     name: bus.routeno,
     nodeid: bus.routeid,
+    end: bus.endnodenm,
+    start: bus.startnodenm,
+    routetp: bus.routetp,
     type: "bus",
   }));
 
