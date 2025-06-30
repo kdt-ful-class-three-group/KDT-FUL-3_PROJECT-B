@@ -20,6 +20,7 @@ export function Map({
   const [stops, setStops] = useState<Stop[]>([]);
   const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
   const [popupBuses, setPopupBuses] = useState<BusRoute[]>([]);
+  const [highlightedStopIds, setHighlightedStopIds] = useState<string[]>([]);
 
   useMapEffect(mapRef, maptilerKey, setMapInstance, setStops);
   usePopupClose(mapRef, selectedStop, () => setSelectedStop(null));
@@ -37,8 +38,13 @@ export function Map({
           setPopupBuses(routes);
         }}
         onClosePopup={() => setSelectedStop(null)}
+        highlightedStopIds={highlightedStopIds}
       />
-      <MapMover stopName={stopName} mapRef={{ current: mapInstance }} />
+      <MapMover
+        stopName={stopName}
+        mapRef={{ current: mapInstance }}
+        setHighlightedStopIds={setHighlightedStopIds}
+      />
     </>
   );
 }

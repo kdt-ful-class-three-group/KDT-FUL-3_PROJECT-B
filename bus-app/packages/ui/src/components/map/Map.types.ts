@@ -4,7 +4,7 @@ export interface Stop {
   name: string;
   lat: number;
   lng: number;
-  citycode?: number;
+  citycode: number;
 }
 
 export interface BusRoute {
@@ -24,6 +24,7 @@ export interface MapMarkerProps {
   stop: Stop;
   mapInstance: maplibregl.Map | null;
   onSelectStop?: (routes: BusRoute[], stop: Stop) => void;
+  highlighted?: boolean;
 }
 
 export interface PopupProps {

@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { FetchStopInfo } from './FetchStopInfo';
 import { MapMarkerProps } from './Map.types';
 
-export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
+export function MapMarker({ stop, mapInstance, onSelectStop, highlighted }: MapMarkerProps) {
   const markerRef = useRef<maplibregl.Marker | null>(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
       markerRef.current.remove();
     }
 
-    const marker = new maplibregl.Marker()
+    const marker = new maplibregl.Marker({color: highlighted ? '#DC143C' : '#3FB1CE'})
       .setLngLat([stop.lng, stop.lat])
       .addTo(mapInstance);
 
@@ -22,7 +22,6 @@ export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
 
     const handleClick = async () => {
       console.log('정류장 마커 클릭:', stop.name);
-
       if (!onSelectStop) return;
       onSelectStop([], stop); // 초기화
 
@@ -37,11 +36,12 @@ export function MapMarker({ stop, mapInstance, onSelectStop }: MapMarkerProps) {
     const el = marker.getElement();
     el.addEventListener('click', handleClick);
 
+   
     return () => {
       el.removeEventListener('click', handleClick);
       marker.remove();
     };
-  }, [stop, mapInstance]);
+  }, [stop, mapInstance, highlighted]);
 
   return null;
 }

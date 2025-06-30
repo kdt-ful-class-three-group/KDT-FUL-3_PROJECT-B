@@ -2,6 +2,10 @@ import { MapMarker } from './MapMarker';
 import { Popup } from '../popup/Popup';
 import type { MapViewProps } from './Map.types';
 
+type ExtendedMapViewProps = MapViewProps & {
+  highlightedStopIds: string[];
+};
+
 export function MapView({
   mapRef,
   mapInstance,
@@ -10,7 +14,8 @@ export function MapView({
   popupBuses,
   onSelectStop,
   onClosePopup,
-}: MapViewProps) {
+  highlightedStopIds,
+}: ExtendedMapViewProps) {
   return (
     <div ref={mapRef} className="w-full h-full relative">
       {mapInstance && stops.map((stop) => (
@@ -19,6 +24,7 @@ export function MapView({
           stop={stop}
           mapInstance={mapInstance}
           onSelectStop={onSelectStop}
+          highlighted={highlightedStopIds.includes(stop.id)}
         />
       ))}
       {selectedStop && (

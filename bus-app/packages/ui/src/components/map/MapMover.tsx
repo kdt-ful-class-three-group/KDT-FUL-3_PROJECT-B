@@ -11,9 +11,10 @@ type Stop = {
 type MapMoverProps = {
   stopName: string | null;
   mapRef: React.RefObject<maplibregl.Map | null>;
+  setHighlightedStopIds: (ids: string[]) => void; 
 };
 
-export const MapMover = ({ stopName, mapRef }: MapMoverProps) => {
+export const MapMover = ({ stopName, mapRef, setHighlightedStopIds }: MapMoverProps) => {
   useEffect(() => {
     if (!stopName || !mapRef.current) return;
     const map = mapRef.current!;
@@ -25,6 +26,8 @@ export const MapMover = ({ stopName, mapRef }: MapMoverProps) => {
         const stops: Stop[] = await res.json();
 
         if (stops.length === 0) return;
+
+        setHighlightedStopIds(stops.map(stop => stop.id));
 
         const bounds = new maplibregl.LngLatBounds();
         stops.forEach((stop) => {
