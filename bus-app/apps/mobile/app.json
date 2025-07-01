@@ -1,4 +1,7 @@
 {
   "name": "Mobile",
-  "displayName": "Mobile"
+  "displayName": "Mobile",
+  "android":{
+    "packageName": "com.mobile"
+  }
 }
