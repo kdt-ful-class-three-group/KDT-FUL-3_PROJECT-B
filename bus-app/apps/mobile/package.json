@@ -1,0 +1,9 @@
+{
+  "name": "@bus-app/mobile",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}
