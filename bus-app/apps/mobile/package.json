@@ -5,9 +5,10 @@
   "dependencies": {
     "@react-native/metro-config": "*",
     "metro-config": "*",
-    "react": "*",
+    "react": "19.0.0",
     "react-native": "*",
-    "react-native-svg": "*"
+    "react-native-svg": "*",
+    "react-native-webview":"*"
   },
   "devDependencies": {
     "@react-native-community/cli": "*"

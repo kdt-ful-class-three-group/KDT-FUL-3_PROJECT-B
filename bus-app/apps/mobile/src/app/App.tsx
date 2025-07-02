@@ -1,6 +1,6 @@
 // webview 컴포넌트 작성
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 // 플랫폼 별 경로
