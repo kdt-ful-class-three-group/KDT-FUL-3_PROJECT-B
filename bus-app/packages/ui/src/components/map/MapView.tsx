@@ -1,5 +1,5 @@
 import { MapMarker } from './MapMarker';
-import { Popup } from './Popup';
+import { Popup } from '../popup/Popup';
 import type { MapViewProps } from './Map.types';
 
 type ExtendedMapViewProps = MapViewProps & {

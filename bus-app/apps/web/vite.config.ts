@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 import path from 'path';
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
@@ -9,6 +11,13 @@ export default defineConfig(() => ({
   server: {
     port: 4200,
     host: 'localhost',
+    proxy: {
+      '/api': {
+        target: process.env.VITE_SERVER_URL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
+      },
+    },
   },
   preview: {
     port: 4300,

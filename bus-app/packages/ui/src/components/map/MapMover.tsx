@@ -21,7 +21,7 @@ export const MapMover = ({ stopName, mapRef, setHighlightedStopIds }: MapMoverPr
 
     const fetchStops = async () => {
       try {
-        const res = await fetch(`http://localhost:3333/api/stop-by-name?name=${encodeURIComponent(stopName)}`);
+        const res = await fetch(`/api/stop-by-name?name=${encodeURIComponent(stopName)}`);
         if (!res.ok) throw new Error('정류장 데이터 요청 실패');
         const stops: Stop[] = await res.json();
 

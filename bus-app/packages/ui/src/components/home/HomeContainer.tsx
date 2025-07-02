@@ -6,7 +6,7 @@ import maplibregl from "maplibre-gl";
 export const HomeContainer = () => {
   const [stopName, setStopName] = useState<string | null>(null);
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
-  const maptilerKey = import.meta.env.VITE_MAPTILER_API_KEY;
+  const maptilerKey = import.meta.env.VITE_MAPTILER_KEY;
 
   return (
     <div className="h-full w-full">
