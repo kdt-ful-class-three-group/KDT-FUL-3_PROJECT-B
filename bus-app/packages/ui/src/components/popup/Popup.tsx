@@ -3,7 +3,7 @@ import { PopupProps, ArrivalInfo } from "../map/Map.types";
 import { Button } from "../common/Button";
 import { FetchArrivalInfo } from "../map/FetchArrivalInfo"; 
 
-export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
+export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose, onSelectBus }) => {
   const [isVisible, setIsVisible] = useState(false);
   // 노선별 도착정보 상태
   const [arrivalInfos, setArrivalInfos] = useState<{ [routeId: string]: ArrivalInfo | undefined }>({});
@@ -83,7 +83,7 @@ export const Popup: React.FC<PopupProps> = ({ stop, buses, onClose }) => {
                   <li
                     key={bus.routeId}
                     className="p-3 bg-gray-100 rounded-lg shadow-sm text-base text-gray-800 cursor-pointer hover:bg-gray-200 transition-colors"
-                    onClick={() => console.log('클릭한 노선:', bus.routeId)}
+                    onClick={() => onSelectBus?.(bus.routeId)}
                   >
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-blue-600">[{bus.routeTp}] {bus.routeNo}번</span>

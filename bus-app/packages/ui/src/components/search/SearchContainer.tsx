@@ -7,9 +7,10 @@ import { SearchWrapper } from "./SearchWrapper";
 
 type Props = {
   onSelectStopName: (name: string) => void;
+  onSelectBusNumber: (name: string) => void;
 };
 
-export const SearchContainer = ({ onSelectStopName }: Props) => {
+export const SearchContainer = ({ onSelectStopName, onSelectBusNumber }: Props) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
 
@@ -55,8 +56,14 @@ export const SearchContainer = ({ onSelectStopName }: Props) => {
             <SearchResultList
               results={results}
               onSelect={(item) => {
-                console.log("선택됨:", item);
-                onSelectStopName(item.name);
+
+                if (item.type === "stop") {
+                  console.log(`정류장 ${item.name} 선택됨`);
+                } else if (item.type === "bus" && item.routeid) {
+                  // 노선도 표시 로직추가
+                  onSelectBusNumber(item.routeid);
+                  console.log(`버스 ${item.routeid} 선택됨`);
+                }
               }} />
           )}
         </div>

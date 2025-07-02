@@ -4,6 +4,7 @@ import type { MapViewProps } from './Map.types';
 
 type ExtendedMapViewProps = MapViewProps & {
   highlightedStopIds: string[];
+  onSelectBus?: (routeId: string) => void;
 };
 
 export function MapView({
@@ -15,6 +16,7 @@ export function MapView({
   onSelectStop,
   onClosePopup,
   highlightedStopIds,
+  onSelectBus,
 }: ExtendedMapViewProps) {
   return (
     <div ref={mapRef} className="w-full h-full relative">
@@ -32,6 +34,7 @@ export function MapView({
           stop={selectedStop}
           buses={popupBuses}
           onClose={onClosePopup}
+          onSelectBus={onSelectBus}
         />
       )}
     </div>

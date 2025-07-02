@@ -35,6 +35,7 @@ export interface PopupProps {
   };
   buses: BusRoute[];
   onClose: () => void;
+  onSelectBus?: (routeId: string) => void;
 }
 
 // 여기 추가했어 - 버스 도착정보 타입

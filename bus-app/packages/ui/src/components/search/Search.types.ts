@@ -1,11 +1,21 @@
 export type SearchResultType = "bus" | "stop";
 
 export interface SearchResult {
-  name: string;
-  nodeid: string;
+  // 공통
   type: SearchResultType;
-  start: string;
-  end: string;
-  routetp: string;
-}
+  name: string; // stop: nodenm, bus: routeno
+  
+  // stop 전용 필드
+  nodeid?: string;
+  gpslati?: number;
+  gpslong?: number;
+  nodeno?: string;
 
+  // bus 전용 필드
+  routeid?: string;
+  routetp?: string;
+  start?: string;
+  end?: string;
+  // startvehicletime?: string;
+  // endvehicletime?: string;
+}

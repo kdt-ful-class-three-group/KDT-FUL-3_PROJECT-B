@@ -8,6 +8,7 @@ import * as dotenv from 'dotenv';
 import stopRouter from './routes/stop';
 import stopInfoRouter from './routes/stop-info';
 import arrivalRouter from './routes/arrival';
+import busLineRouter from './routes/bus-line';
 
 // 여기는 DB 조회
 import searchRouter from './routes/search';
@@ -44,16 +45,15 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to server!' });
 });
 
-app.use('/api/stop', stopRouter);
-app.use('/api/stop-info', stopInfoRouter);
-app.use('/api/arrival', arrivalRouter)
 // API 라우터 설정
 app.use('/api/stop', stopRouter);
 app.use('/api/stop-info', stopInfoRouter);
+app.use('/api/arrival', arrivalRouter)
 app.use('/api/search', searchRouter);
 app.use('/api/init/bus-stops', busStopRouter);
 app.use('/api/init/bus-numbers', busNumberRouter);
 app.use('/api/stop-by-name', stopByNameRouter);
+app.use('/api/bus-line', busLineRouter);
 
 const port = process.env.PORT
 const server = app.listen(port, () => {

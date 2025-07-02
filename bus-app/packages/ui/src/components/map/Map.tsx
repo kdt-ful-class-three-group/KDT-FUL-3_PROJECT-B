@@ -4,6 +4,7 @@ import { usePopupClose } from './usePopupClose';
 import { MapView } from './MapView';
 import type { MapProps, Stop, BusRoute } from './Map.types';
 import { MapMover } from './MapMover';
+import { BusRouteRenderer } from '../bus/BusRouteRenderer';
 
 
 export function Map({
@@ -13,6 +14,7 @@ export function Map({
   setMapInstance,
 }: MapProps & {
   stopName: string | null;
+  busNumber: string | null;
   mapInstance: maplibregl.Map | null;
   setMapInstance: (map: maplibregl.Map) => void;
 }) {
@@ -21,6 +23,7 @@ export function Map({
   const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
   const [popupBuses, setPopupBuses] = useState<BusRoute[]>([]);
   const [highlightedStopIds, setHighlightedStopIds] = useState<string[]>([]);
+  const [busNumber, setBusNumber] = useState<string | null>(null);
 
   useMapEffect(mapRef, maptilerKey, setMapInstance, setStops);
   usePopupClose(mapRef, selectedStop, () => setSelectedStop(null));
@@ -39,11 +42,19 @@ export function Map({
         }}
         onClosePopup={() => setSelectedStop(null)}
         highlightedStopIds={highlightedStopIds}
+        onSelectBus={(routeId) => {
+          setBusNumber(routeId);
+        }
+        }
       />
       <MapMover
         stopName={stopName}
         mapRef={{ current: mapInstance }}
         setHighlightedStopIds={setHighlightedStopIds}
+      />
+      <BusRouteRenderer
+        map={mapInstance}
+        routeId={busNumber}
       />
     </>
   );

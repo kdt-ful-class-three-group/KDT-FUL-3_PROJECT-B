@@ -13,14 +13,14 @@ export const SearchResultList = ({ results, onSelect }: Props) => {
       <ul className="space-y-2">
    {results.map((item) => (
           <li
-            key={item.nodeid}
+            key={item.nodeid || item.routeid}
             className="p-2 rounded hover:bg-gray-100 cursor-pointer"
             onClick={() => onSelect(item)}
           >
             {item.type === "bus" ? (
               <div>
                 <div className="font-medium">{`${item.routetp} ${item.name}번`}</div>
-                <div className="text-sm text-gray-500">{`${item.start} → ${item.end}`}</div>
+                <div className="text-sm text-gray-500">{`${item.start} ↔ ${item.end}`}</div>
               </div>
             ) : (
               item.name

@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
 
   const busResults = buses.map((bus) => ({
     name: bus.routeno,
-    nodeid: bus.routeid,
+    routeid: bus.routeid,
     end: bus.endnodenm,
     start: bus.startnodenm,
     routetp: bus.routetp,
