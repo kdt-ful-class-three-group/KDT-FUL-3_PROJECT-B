@@ -1,0 +1,11 @@
+// bus-app/apps/mobile/android/settings.gradle
+
+pluginManagement {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url("$rootDir/../../../node_modules/react-native/android") }
+    }
+}
+rootProject.name = "mobile"
+include(":app")
