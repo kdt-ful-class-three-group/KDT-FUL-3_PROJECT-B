@@ -15,7 +15,8 @@ export const SearchResultList = ({ results, onSelect }: Props) => {
           <li
             key={item.nodeid || item.routeid}
             className="p-2 rounded hover:bg-gray-100 cursor-pointer"
-            onClick={() => onSelect(item)}
+            onClick={() => 
+              onSelect(item)}
           >
             {item.type === "bus" ? (
               <div>

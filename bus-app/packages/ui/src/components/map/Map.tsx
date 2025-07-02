@@ -12,6 +12,7 @@ export function Map({
   stopName,
   mapInstance,
   setMapInstance,
+  busNumber,
 }: MapProps & {
   stopName: string | null;
   busNumber: string | null;
@@ -21,9 +22,9 @@ export function Map({
   const mapRef = useRef<HTMLDivElement>(null);
   const [stops, setStops] = useState<Stop[]>([]);
   const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
+  const [selectedBus, setSelectedBus] = useState<string | null>(null);
   const [popupBuses, setPopupBuses] = useState<BusRoute[]>([]);
   const [highlightedStopIds, setHighlightedStopIds] = useState<string[]>([]);
-  const [busNumber, setBusNumber] = useState<string | null>(null);
 
   useMapEffect(mapRef, maptilerKey, setMapInstance, setStops);
   usePopupClose(mapRef, selectedStop, () => setSelectedStop(null));
@@ -43,9 +44,8 @@ export function Map({
         onClosePopup={() => setSelectedStop(null)}
         highlightedStopIds={highlightedStopIds}
         onSelectBus={(routeId) => {
-          setBusNumber(routeId);
-        }
-        }
+          setSelectedBus(routeId);
+        }}
       />
       <MapMover
         stopName={stopName}
@@ -54,7 +54,7 @@ export function Map({
       />
       <BusRouteRenderer
         map={mapInstance}
-        routeId={busNumber}
+        route={{ routeId: busNumber, selectedRouteId: selectedBus }}
       />
     </>
   );

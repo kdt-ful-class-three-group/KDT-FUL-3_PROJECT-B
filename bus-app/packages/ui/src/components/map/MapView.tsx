@@ -34,7 +34,7 @@ export function MapView({
           stop={selectedStop}
           buses={popupBuses}
           onClose={onClosePopup}
-          onSelectBus={onSelectBus}
+          onSelectBus={(routeId)=> onSelectBus?.(routeId)}
         />
       )}
     </div>

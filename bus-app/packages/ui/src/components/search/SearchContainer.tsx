@@ -57,12 +57,13 @@ export const SearchContainer = ({ onSelectStopName, onSelectBusNumber }: Props) 
               results={results}
               onSelect={(item) => {
 
-                if (item.type === "stop") {
-                  console.log(`정류장 ${item.name} 선택됨`);
+                if (item.type === "stop" && item.name) {
+                  console.log("SearchContainer 콘솔", item.name);
+                  onSelectStopName(item.name);
                 } else if (item.type === "bus" && item.routeid) {
                   // 노선도 표시 로직추가
+                  console.log("SearchContainer 콘솔", item.routeid);
                   onSelectBusNumber(item.routeid);
-                  console.log(`버스 ${item.routeid} 선택됨`);
                 }
               }} />
           )}

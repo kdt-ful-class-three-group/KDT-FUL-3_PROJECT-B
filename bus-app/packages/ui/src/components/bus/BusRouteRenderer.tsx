@@ -4,14 +4,20 @@ import maplibregl from "maplibre-gl";
 
 type Props = {
   map: maplibregl.Map | null;
-  routeId: string | null;
+  route: {
+    routeId: string | null;
+    selectedRouteId?: string | null;
+  }
 };
 
-export const BusRouteRenderer = ({ map, routeId }: Props) => {
+export const BusRouteRenderer = ({ map, route}: Props) => {
   const previousRouteIdRef = useRef<string | null>(null);
+  const routeId = route.routeId ?? route.selectedRouteId;
 
   useEffect(() => {
-    if (!map || !routeId) return;
+    if (!map || !routeId || routeId === 'null') return;
+    if (!route.selectedRouteId) return;
+    if (previousRouteIdRef.current === routeId) return;
 
     const fetchRoute = async () => {
       try {
