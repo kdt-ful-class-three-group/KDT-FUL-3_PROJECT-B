@@ -1,0 +1,16 @@
+{
+  "name": "mobile",
+  "projectType": "application",
+  "sourceRoot": "apps/mobile/src",
+  "targets": {
+    "start": {
+      "executor": "@nx/react-native:start"
+    },
+    "ios": {
+      "executor": "@nx/react-native:run-ios"
+    },
+    "android": {
+      "executor": "@nx/react-native:run-android"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "mobile",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@react-native/new-app-screen": "*",
+    "nativewind": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-css-interop": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/runtime": "*",
+    "@react-native-community/cli": "*",
+    "@react-native-community/cli-platform-android": "*",
+    "@react-native-community/cli-platform-ios": "*",
+    "@react-native/babel-preset": "*",
+    "@react-native/eslint-config": "*",
+    "@react-native/metro-config": "*",
+    "@react-native/typescript-config": "*",
+    "@types/jest": "*",
+    "@types/react": "*",
+    "@types/react-test-renderer": "*",
+    "eslint": "*",
+    "jest": "*",
+    "prettier": "*",
+    "prettier-plugin-tailwindcss": "*",
+    "react-test-renderer": "*",
+    "tailwindcss": "*",
+    "typescript": "*"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
