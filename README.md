@@ -22,36 +22,35 @@
 
 ### 기술 스택
 
-프론트엔드: React 19, Vite, TailwindCSS, MapLibre GL
-백엔드: Node.js, Express, Axios
-데스크톱: Electron
-데이터: MongoDB
-툴링: Nx, TypeScript, Vitest, ESLint/Prettier
+- 프론트엔드: React 19, Vite, TailwindCSS, MapLibre GL
+- 백엔드: Node.js, Express, Axios
+- 데스크톱: Electron
+- 데이터베이스: MongoDB
+- 툴링: Nx, TypeScript, Vitest, ESLint/Prettier
 
 ### 개발 실행
 
-전체(서버+웹+Electron): yarn dev
-개별 실행: yarn server, yarn web, yarn electron
-포트: --
+- 전체(서버+웹+Electron): yarn dev
+- 개별 실행: yarn server, yarn web, yarn electron
+- 포트: --
 
 ### API 요약
 
-GET /api/stop?lat&lng: 위경도 주변 정류장 목록
-GET /api/stop-info?nodeId&cityCode: 정류장 경유 노선
-GET /api/arrival?stopId&routeId&cityCode: 실시간 도착 정보
-GET /api/bus-line/:routeid: 노선 경유 정류장 목록(정렬)
-GET /api/search?q=키워드: 정류장/노선 통합 검색(Mongo)
-시드용(운영 차단 권장)
-GET /api/init/bus-stops: 정류장 데이터 MongoDB 저장
-GET /api/init/bus-numbers: 노선 데이터 MongoDB 저장
+- GET /api/stop?lat&lng: 위경도 주변 정류장 목록
+- GET /api/stop-info?nodeId&cityCode: 정류장 경유 노선
+- GET /api/arrival?stopId&routeId&cityCode: 실시간 도착 정보
+- GET /api/bus-line/:routeid: 노선 경유 정류장 목록(정렬)
+- GET /api/search?q=키워드: 정류장/노선 통합 검색(Mongo)
+- GET /api/init/bus-stops: 정류장 데이터 MongoDB 저장
+- GET /api/init/bus-numbers: 노선 데이터 MongoDB 저장
 
 ### 개발 메모
 
-웹 개발 서버는 /api를 VITE_SERVER_URL로 프록시합니다.
-서버는 CORS 활성화 상태입니다.
-BUSSTOP_SERVICE_KEY는 공공데이터포털 키가 필요합니다.
+- 웹 개발 서버는 /api를 VITE_SERVER_URL로 프록시 중.
+- 서버는 CORS 활성화 상태.
+- BUSSTOP_SERVICE_KEY는 공공데이터포털 키가 필요 요구
 
 ### 빌드/배포
 
-Electron 패키징: cd bus-app && yarn nxe:make:app
-웹 정적 빌드/서버 번들: Nx 스크립트 사용 가능 (nx build ...)
+- Electron 패키징: cd bus-app && yarn nxe:make:app
+- 웹 정적 빌드/서버 번들: Nx 스크립트 사용 가능 (nx build ...)
