@@ -16,12 +16,12 @@ export const BusRouteRenderer = ({ map, route}: Props) => {
 
   useEffect(() => {
     if (!map || !routeId || routeId === 'null') return;
-    if (!route.selectedRouteId) return;
     if (previousRouteIdRef.current === routeId) return;
 
     const fetchRoute = async () => {
       try {
         const res = await axios.get(`/api/bus-line/${routeId}`);
+        console.log("노선도 데이터", res.data);
         const coordinates = res.data.map((stop: any) => [stop.gpslong, stop.gpslati]);
 
         const currSourceId = `bus-route-${routeId}`;
